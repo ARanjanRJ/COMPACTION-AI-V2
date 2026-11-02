@@ -1,0 +1,112 @@
+"""Small client for Ollama's documented HTTP API (GET /api/tags, POST /api/chat).
+
+All inference stays on the Ollama server you configure. Nothing here talks to
+any other service. Errors are mapped to stable codes the UI can explain.
+"""
+import json
+from typing import Dict, Iterator, List
+
+import requests
+
+
+class OllamaError(Exception):
+    def __init__(self, code: str, message: str, status: int = 502):
+        super().__init__(message)
+        self.code = code
+        self.message = message
+        self.status = status
+
+
+def _headers(api_key: str) -> Dict[str, str]:
+    return {"Authorization": "Bearer " + api_key} if api_key else {}
+
+
+def list_models(base: str, connect_timeout: float, read_timeout: float = 10.0, api_key: str = "") -> List[str]:
+    """Return the names of models actually installed on the Ollama server."""
+    try:
+        r = requests.get(base + "/api/tags", headers=_headers(api_key), timeout=(connect_timeout, read_timeout))
+    except requests.Timeout:
+        raise OllamaError("ollama_timeout", "Ollama did not answer in time.", 504)
+    except requests.RequestException:
+        raise OllamaError(
+            "ollama_unavailable",
+            "Cannot reach Ollama. Start it (open the Ollama app, or run 'ollama serve') and check OLLAMA_BASE_URL.",
+            503,
+        )
+    if r.status_code in (401, 403):
+        raise OllamaError("ollama_auth", "Ollama Cloud rejected the API key. Check OLLAMA_API_KEY on the server.", 502)
+    if r.status_code != 200:
+        raise OllamaError("ollama_error", "Ollama returned HTTP %d to the model list request." % r.status_code, 502)
+    try:
+        models = r.json().get("models", [])
+        names = [str(m.get("name") or m.get("model")) for m in models if isinstance(m, dict)]
+    except (ValueError, AttributeError):
+        raise OllamaError("bad_response", "Ollama sent an unreadable model list.", 502)
+    return [n for n in names if n and n != "None"]
+
+
+def model_installed(model: str, installed: List[str]) -> bool:
+    """Ollama lists 'llama3.2:1b'; a bare 'llama3.2' means ':latest'."""
+    wanted = model if ":" in model else model + ":latest"
+    return wanted in installed or model in installed
+
+
+def chat_stream(
+    base: str,
+    model: str,
+    messages: List[Dict[str, str]],
+    options: Dict,
+    connect_timeout: float,
+    read_timeout: float,
+    api_key: str = "",
+) -> Iterator[str]:
+    """Yield text pieces from POST /api/chat (streaming NDJSON).
+
+    Closing this generator (for example when the browser cancels) closes the
+    HTTP connection, which makes Ollama stop generating.
+    """
+    payload = {"model": model, "messages": messages, "stream": True, "options": options, "keep_alive": "10m"}
+    try:
+        resp = requests.post(base + "/api/chat", json=payload, stream=True, headers=_headers(api_key), timeout=(connect_timeout, read_timeout))
+    except requests.Timeout:
+        raise OllamaError("ollama_timeout", "Ollama took too long to start answering.", 504)
+    except requests.RequestException:
+        raise OllamaError("ollama_unavailable", "Lost the connection to Ollama.", 503)
+    try:
+        if resp.status_code in (401, 403):
+            raise OllamaError("ollama_auth", "Ollama Cloud rejected the API key. Check OLLAMA_API_KEY on the server.", 502)
+        if resp.status_code == 404:
+            raise OllamaError(
+                "model_missing",
+                ("Model '%s' is not available on this Ollama Cloud account. Pick another model." % model)
+                if api_key else ("Model '%s' is not installed. Run: ollama pull %s" % (model, model)),
+                404,
+            )
+        if resp.status_code != 200:
+            raise OllamaError("ollama_error", "Ollama returned HTTP %d." % resp.status_code, 502)
+        got_done = False
+        try:
+            for raw in resp.iter_lines():
+                if not raw:
+                    continue
+                try:
+                    data = json.loads(raw)
+                except ValueError:
+                    raise OllamaError("bad_response", "Ollama sent a response that could not be read.", 502)
+                if not isinstance(data, dict):
+                    raise OllamaError("bad_response", "Ollama sent an unexpected response.", 502)
+                if data.get("error"):
+                    raise OllamaError("ollama_error", "Ollama reported an error: %s" % str(data["error"])[:200], 502)
+                piece = (data.get("message") or {}).get("content", "")
+                if piece:
+                    yield piece
+                if data.get("done"):
+                    got_done = True
+        except requests.Timeout:
+            raise OllamaError("ollama_timeout", "Ollama stopped responding while generating.", 504)
+        except requests.RequestException:
+            raise OllamaError("ollama_unavailable", "Lost the connection to Ollama while generating.", 503)
+        if not got_done:
+            raise OllamaError("bad_response", "Ollama ended the response early.", 502)
+    finally:
+        resp.close()

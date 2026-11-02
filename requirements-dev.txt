@@ -1,0 +1,4 @@
+-r requirements.txt
+pytest>=8.0
+playwright>=1.40
+ruff>=0.5

@@ -1,0 +1,31 @@
+# UNTESTED in the authoring sandbox (no Docker there). Validate with: docker compose config
+# Ollama is on an internal network with NO published port. Only the app is reachable,
+# and only from this computer (127.0.0.1:5000).
+services:
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama_data:/root/.ollama
+    # 'default' gives outbound internet so `ollama pull` works; no ports are published.
+    networks: [internal, default]
+    restart: unless-stopped
+
+  compaction:
+    build: .
+    environment:
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: llama3.2:1b
+      HOST: 0.0.0.0
+      COMPACTION_ACCESS_TOKEN: ${COMPACTION_ACCESS_TOKEN:?set COMPACTION_ACCESS_TOKEN in .env (min 16 chars)}
+    ports:
+      - "127.0.0.1:5000:5000"
+    depends_on: [ollama]
+    networks: [internal, default]
+    restart: unless-stopped
+
+networks:
+  internal:
+    internal: true
+
+volumes:
+  ollama_data:

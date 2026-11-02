@@ -1,0 +1,123 @@
+/* Extracted from index.html to comply with style-src 'self' */
+    .voice-page {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 0;
+      color: #e7f5ff;
+    }
+
+    .voice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .voice-eyebrow {
+      color: #00d9f5;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 3px;
+    }
+
+    .voice-header h2 {
+      font-size: 28px;
+      margin: 10px 0;
+    }
+
+    .voice-header p {
+      color: #91aabd;
+      margin: 0;
+    }
+
+    .voice-online {
+      border: 1px solid #00d9c5;
+      border-radius: 30px;
+      padding: 10px 16px;
+      color: #54f5dc;
+      font-size: 13px;
+    }
+
+    .voice-online span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #54f5dc;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+
+    .voice-main-card {
+      background: linear-gradient(
+        145deg,
+        rgba(10, 35, 55, 0.95),
+        rgba(3, 13, 27, 0.98)
+      );
+      border: 1px solid rgba(0, 210, 255, 0.25);
+      border-radius: 20px;
+      padding: 28px;
+      margin-bottom: 22px;
+    }
+
+    .voice-circle {
+      width: 100px;
+      height: 100px;
+      margin: 10px auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(0, 210, 255, 0.10);
+      border: 2px solid #00cbea;
+      font-size: 42px;
+      box-shadow: 0 0 35px rgba(0, 210, 255, 0.15);
+    }
+
+    .voice-main-card h3 {
+      text-align: center;
+      font-size: 22px;
+      margin: 10px 0;
+    }
+
+    .voice-description {
+      text-align: center;
+      color: #91aabd;
+      margin-bottom: 25px;
+    }
+
+    .voice-feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .voice-feature {
+      background: rgba(8, 27, 45, 0.85);
+      border: 1px solid rgba(0, 210, 255, 0.2);
+      border-radius: 15px;
+      padding: 20px;
+    }
+    .voice-feature h4 {
+      margin: 0 0 10px;
+      color: #e7f5ff;
+    }
+
+    .voice-feature p {
+      color: #91aabd;
+      margin: 0;
+      font-size: 14px;
+    }
+
+    @media (max-width: 650px) {
+      .voice-feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .voice-main-card {
+        padding: 18px;
+      }
+    }

@@ -1,0 +1,95 @@
+
+def _call(stream_fn: StreamFn, model, messages, options, label, done, total) -> Iterator[Dict]:
+    """Run one model call, yielding progress ticks; returns the full text."""
+    parts: List[str] = []
+    ticks = 0
+    for piece in stream_fn(model, messages, options):
+        parts.append(piece)
+        ticks += 1
+        if ticks % 15 == 0:
+            yield {"type": "progress", "done": done, "total": total, "message": label,
+                   "generated_chars": sum(len(p) for p in parts)}
+    text = "".join(parts)
+    if not text.strip():
+        raise OllamaError("empty_response", "The model returned an empty answer. Try again or use a larger model.", 502)
+    return text
+
+
+def compact(text: str, mode: str, model: str, cfg, stream_fn: StreamFn) -> Iterator[Dict]:
+    started = time.time()
+    g = MODES[mode]
+    cleaned, removed, removed_chars, similar = dedupe(text)
+    chunks = chunk_text(cleaned, cfg.chunk_chars)
+    n = len(chunks)
+    est_total = 1 if n == 1 else n + max(1, math.ceil(n / 3))
+    yield {"type": "stage", "stage": "prepared", "done": 0, "total": est_total,
+           "message": "Removed %d repeated line(s). Processing %d part(s)." % (removed, n),
+           "duplicates_removed": removed, "similar_lines_kept": similar, "chunks": n}
+
+    base_opts = {"temperature": 0.2, "num_ctx": cfg.num_ctx}
+    done = 0
+    truncated = False
+
+    if n == 1:
+        opts = dict(base_opts, num_predict=g["final_predict"])
+        out = yield from _call(stream_fn, model, single_pass_messages(mode, chunks[0]), opts,
+                               "Writing compacted context…", done, est_total)
+    else:
+        notes: List[str] = []
+        for i, part in enumerate(chunks, 1):
+            opts = dict(base_opts, num_predict=g["map_predict"])
+            t = yield from _call(stream_fn, model, map_messages(mode, part, i, n), opts,
+                                 "Reading part %d of %d…" % (i, n), done, est_total)
+            notes.append(tidy_output(t))
+            done += 1
+            yield {"type": "progress", "done": done, "total": est_total, "message": "Read part %d of %d" % (i, n)}
+        while True:
+            joined_len = sum(len(x) for x in notes) + 30 * len(notes)
+            if joined_len <= cfg.merge_chars:
+                break
+            groups: List[List[str]] = []
+            cur: List[str] = []
+            cur_len = 0
+            for note in notes:
+                if cur and cur_len + len(note) > cfg.merge_chars:
+                    groups.append(cur)
+                    cur, cur_len = [], 0
+                cur.append(note)
+                cur_len += len(note) + 30
+            if cur:
+                groups.append(cur)
+            if len(groups) >= len(notes):  # cannot shrink further (very small MERGE_CHARS)
+                truncated = True
+                notes = [x[: max(200, cfg.merge_chars // max(1, len(notes)))] for x in notes]
+                break
+            merged: List[str] = []
+            for gi, grp in enumerate(groups, 1):
+                opts = dict(base_opts, num_predict=g["map_predict"])
+                t = yield from _call(stream_fn, model, merge_messages(mode, grp, False), opts,
+                                     "Merging notes (%d/%d)…" % (gi, len(groups)), done, est_total)
+                merged.append(tidy_output(t))
+                done += 1
+            notes = merged
+        opts = dict(base_opts, num_predict=g["final_predict"])
+        out = yield from _call(stream_fn, model, merge_messages(mode, notes, True), opts,
+                               "Writing final context…", done, est_total)
+
+    result = tidy_output(out)
+    yield {
+        "type": "result",
+        "context": result,
+        "stats": {
+            "mode": mode,
+            "model": model,
+            "chunks": n,
+            "duplicates_removed": removed,
+            "duplicate_chars_removed": removed_chars,
+            "similar_lines_kept": similar,
+            "original_chars": len(text),
+            "deduped_chars": len(cleaned),
+            "unverified_numbers": unverified_numbers(result, text),
+            "format_ok": format_ok(result),
+            "merge_truncated": truncated,
+            "elapsed_ms": int((time.time() - started) * 1000),
+        },
+    }

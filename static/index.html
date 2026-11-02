@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COMPACTION AI V2</title>
+<meta name="theme-color" content="#02050b">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/voice-agent-inline-CSS.css">
+</head>
+<body data-orb="idle">
+
+<div class="bg" aria-hidden="true"></div>
+
+<div class="workspace-shell">
+
+<aside class="sidebar">
+  <div class="side-brand">
+    <strong>COMPACTION</strong>
+    <span>AI WORKSPACE · V2</span>
+  </div>
+
+  <div class="nav-label">WORKSPACE</div>
+
+  <nav class="side-nav" id="mainNav">
+    <button type="button" data-page="dashboard" aria-current="page">
+      <span class="nav-icon">⌂</span>
+      <span class="nav-text">Overview</span>
+    </button>
+
+    <button type="button" data-page="astro">
+      <span class="nav-icon">AI</span>
+      <span class="nav-text">ASTRO 6</span>
+    </button>
+
+    <button type="button" data-page="compaction">
+      <span class="nav-icon">◈</span>
+      <span class="nav-text">Compaction</span>
+    </button>
+
+    <button type="button" data-page="voice">
+      <span class="nav-icon">◉</span>
+      <span class="nav-text">Voice Agent</span>
+    </button>
+
+    <button type="button" data-page="memory">
+      <span class="nav-icon">▤</span>
+      <span class="nav-text">Memory Engine</span>
+    </button>
+
+    <button type="button" data-page="accuracy">
+      <span class="nav-icon">◎</span>
+      <span class="nav-text">Accuracy Center</span>
+    </button>
+
+    <button type="button" data-page="models">
+      <span class="nav-icon">⌘</span>
+      <span class="nav-text">AI Models</span>
+    </button>
+
+    <button type="button" data-page="performance">
+      <span class="nav-icon">↯</span>
+      <span class="nav-text">Performance</span>
+    </button>
+
+    <button type="button" data-page="history">
+      <span class="nav-icon">◷</span>
+      <span class="nav-text">History & Library</span>
+    </button>
+
+    <button type="button" data-page="export">
+      <span class="nav-icon">⇧</span>
+      <span class="nav-text">Export & Handoff</span>
+    </button>
+
+    <button type="button" data-page="settings">
+      <span class="nav-icon">⚙</span>
+      <span class="nav-text">Settings</span>
+    </button>
+  </nav>
+
+  <div class="sidebar-foot">
+    LOCAL-FIRST AI<br>
+    <strong>Ollama · Private by design</strong>
+  </div>
+</aside>
+
+<div class="main-workspace">
+
+<header class="workspace-top">
+  <div>
+    <h2 id="pageTitle">Workspace overview</h2>
+    <p id="pageSubtitle">Your context intelligence command center</p>
+  </div>
+
+  <div class="top-right">
+    <span id="pill" class="pill" data-state="checking"
+      role="status" aria-live="polite">Checking Ollama…</span>
+    <span class="ver">v2.0</span>
+  </div>
+</header>
+
+<section class="workspace-page dashboard-page" data-view="dashboard">
+
+  <div class="maya-dashboard">
+
+    <div class="dashboard-intro">
+      <div class="eyebrow">
+        <span class="eyebrow-line"></span>
+        CONTEXT INTELLIGENCE SYSTEM
+      </div>
+
+      <h1>Keep the context.<br><span>Lose the clutter.</span></h1>
+
+      <p>
+        One intelligent core for turning long conversations
+        into precise, reusable context.
+      </p>
+
+      <button class="launch-button" type="button" data-page="compaction">
+        <span>Open Smart Compaction</span>
+        <b aria-hidden="true">↗</b>
+      </button>
+
+      <div class="intro-foot">
+        <span class="tiny-pulse"></span>
+        LOCAL-FIRST INTELLIGENCE
+        <i></i>
+        PRIVATE BY DESIGN
+      </div>
+    </div>
+
+    <div class="core-stage" aria-label="COMPACTION holographic core visualization">
+      <div class="core-aura"></div>
+      <div class="core-orbit orbit-a"><span class="orbit-node"></span></div>
+      <div class="core-orbit orbit-b"><span class="orbit-node"></span></div>
+      <div class="core-orbit orbit-c"><span class="orbit-node"></span></div>
+      <div class="core-orbit orbit-d"></div>
+
+      <div class="core-sphere">
+        <div class="core-surface"></div>
+        <div class="core-grid"></div>
+        <div class="core-scan"></div>
+        <div class="core-highlight"></div>
+
+        <div class="core-wordmark">
+          <span>◈</span>
+          <b>COMPACTION</b>
+          <small>CONTEXT CORE · V2</small>
+        </div>
+      </div>
+
+      <span class="core-particle particle-a"></span>
+      <span class="core-particle particle-b"></span>
+      <span class="core-particle particle-c"></span>
+      <span class="core-particle particle-d"></span>
+
+      <div class="core-readout">
+        <span class="readout-dot"></span>
+        <span>CORE STANDBY</span>
+        <i></i>
+        <span>LOCAL ENGINE</span>
+      </div>
+    </div>
+
+    <aside class="dashboard-telemetry" aria-label="Workspace telemetry">
+      <div class="telemetry-head">
+        <span>LIVE ENVIRONMENT</span>
+        <span class="telemetry-mark">V2 / 01</span>
+      </div>
+
+      <article class="telemetry-card">
+        <span class="telemetry-icon">◈</span>
+        <div>
+          <small>INFERENCE ENGINE</small>
+          <strong>Ollama · Local</strong>
+          <p>Runs on your configured server</p>
+        </div>
+      </article>
+
+      <article class="telemetry-card">
+        <span class="telemetry-icon">⌁</span>
+        <div>
+          <small>DATA BOUNDARY</small>
+          <strong>Local-first</strong>
+          <p>History stays optional</p>
+        </div>
+      </article>
+
+      <article class="telemetry-card">
+        <span class="telemetry-icon">⟡</span>
+        <div>
+          <small>CONTEXT PIPELINE</small>
+          <strong>Chat → Context</strong>
+          <p>Facts, decisions and next steps</p>
+        </div>
+      </article>
+
+      <div class="telemetry-note">
+        <span>01</span>
+        <p>Designed to preserve signal.<br>Built to reduce noise.</p>
+      </div>
+    </aside>
+
+  </div>
+
+  <div class="dashboard-dock-head">
+    <div>
+      <span class="eyebrow">WORKSPACE MODULES</span>
+      <h2>Choose your next operation</h2>
+    </div>
+    <span class="dock-hint">SELECT A MODULE <b>↘</b></span>
+  </div>
+
+  <div class="dashboard-dock">
+
+    <button class="dock-module" type="button" data-page="compaction">
+      <span class="dock-icon">◈</span>
+      <span>
+        <small>01 / CORE TOOL</small>
+        <strong>Smart Compaction</strong>
+        <em>Summarise and hand off context</em>
+      </span>
+      <b class="dock-arrow">↗</b>
+    </button>
+
+    <button class="dock-module" type="button" data-page="voice">
+      <span class="dock-icon">◉</span>
+      <span>
+        <small>02 / IN DEVELOPMENT</small>
+        <strong>Voice Agent</strong>
+        <em>Two-way speech interaction</em>
+      </span>
+      <b class="dock-arrow">↗</b>
+    </button>
+
+    <button class="dock-module" type="button" data-page="memory">
+      <span class="dock-icon">▤</span>
+      <span>
+        <small>03 / IN DEVELOPMENT</small>
+        <strong>Memory Engine</strong>
+        <em>Facts, timeline and progress</em>
+      </span>
+      <b class="dock-arrow">↗</b>
+    </button>
+
+    <button class="dock-module" type="button" data-page="accuracy">
+      <span class="dock-icon">◎</span>
+      <span>
+        <small>04 / IN DEVELOPMENT</small>
+        <strong>Accuracy Center</strong>
+        <em>Source checks and conflict review</em>
+      </span>
+      <b class="dock-arrow">↗</b>
+    </button>
+
+  </div>
+</section>
+
+<section class="workspace-page" data-view="compaction" hidden>
+  <p class="page-intro">Smart conversation compaction workspace.</p>
+
+  <main class="layout">
+
+    <aside class="panel system">
+      <h2 id="sysTitle">System status</h2>
+      <p class="note">Live backend and Ollama checks.</p>
+
+      <dl class="rows">
+        <div><dt>Backend</dt><dd id="rowBackend">checking…</dd></div>
+        <div><dt>Ollama</dt><dd id="rowOllama">checking…</dd></div>
+        <div><dt>Model</dt><dd id="rowModel">–</dd></div>
+        <div><dt>Installed</dt><dd id="rowInstalled">–</dd></div>
+        <div><dt>Access</dt><dd id="rowAccess">–</dd></div>
+      </dl>
+
+      <label for="modelSelect">AI model</label>
+      <select id="modelSelect" disabled>
+        <option value="">–</option>
+      </select>
+
+      <button id="recheck" class="btn small" type="button">
+        Re-check connection
+      </button>
+
+      <div id="tokenCard" class="callout" hidden>
+        <label for="tokenInput">Access token</label>
+        <input id="tokenInput" type="password" autocomplete="off">
+        <button id="tokenSave" class="btn small primary" type="button">
+          Unlock
+        </button>
+      </div>
+
+      <div id="modelHelp" class="callout warn" hidden>
+        <p id="modelHelpText"></p>
+        <code id="pullCmd"></code>
+        <button id="copyPull" class="btn small" type="button">
+          Copy command
+        </button>
+      </div>
+
+      <h3>Data privacy</h3>
+      <ul class="small">
+        <li id="dataWhere">Your text goes to your configured Ollama server.</li>
+        <li>History is optional.</li>
+      </ul>
+    </aside>
+
+    <section class="center">
+      <figure class="orb-wrap">
+        <svg class="orb" viewBox="0 0 200 200">
+          <defs>
+            <radialGradient id="gCore">
+              <stop offset="0" stop-color="#f0feff"/>
+              <stop offset=".5" stop-color="#1fb6ff"/>
+              <stop offset="1" stop-color="#0a2a8a"/>
+            </radialGradient>
+          </defs>
+
+          <circle class="core" cx="100" cy="100" r="44" fill="url(#gCore)"/>
+
+          <circle cx="100" cy="100" r="76" fill="none"
+            stroke="#22d3ee" stroke-dasharray="5 8"/>
+
+          <circle cx="100" cy="100" r="88" fill="none"
+            stroke="#38bdf8" stroke-dasharray="2 8"/>
+        </svg>
+
+        <figcaption id="orbCaption">COMPACTION AI CORE</figcaption>
+      </figure>
+
+      <div class="panel input-panel">
+        <label for="input" class="h2like">Paste your AI conversation</label>
+
+        <textarea id="input" rows="10" spellcheck="false"
+          placeholder="Paste your ChatGPT or Claude conversation…"></textarea>
+
+        <div class="counts">
+          <span><b id="inChars">0</b> characters</span>
+          <span><b id="inWords">0</b> words</span>
+          <span id="inLimit" class="muted"></span>
+        </div>
+
+        <fieldset class="modes">
+          <legend>Compression mode</legend>
+          <label><input type="radio" name="mode" value="short"><span>Short</span></label>
+          <label><input type="radio" name="mode" value="balanced" checked><span>Balanced</span></label>
+          <label><input type="radio" name="mode" value="detailed"><span>Detailed</span></label>
+        </fieldset>
+
+        <p class="note" id="modeHint">Balanced compression.</p>
+
+        <div class="row">
+          <button id="compactBtn" class="btn primary big" type="button">COMPACT CONTEXT</button>
+          <button id="cancelBtn" class="btn danger" type="button" hidden>Cancel</button>
+          <button id="quickBtn" class="btn" type="button">Quick clean</button>
+          <button id="clearInput" class="btn" type="button">Clear input</button>
+        </div>
+
+        <div id="progress" class="progress" hidden>
+          <div class="track" id="track" role="progressbar"
+            aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div id="bar" class="bar"></div>
+          </div>
+          <p id="progressText" class="note"></p>
+        </div>
+
+        <div id="message" class="message" role="status" hidden></div>
+      </div>
+    </section>    <section class="panel output-panel">
+      <h2 id="outTitle">Compacted context</h2>
+
+      <div class="stats" id="stats">
+        <div><span>Original</span><b id="stOrig">–</b></div>
+        <div><span>Compacted</span><b id="stComp">–</b></div>
+        <div><span>Reduction</span><b id="stRatio">–</b></div>
+        <div><span>Repeated lines</span><b id="stDup">–</b></div>
+        <div><span>Model</span><b id="stModel">–</b></div>
+        <div><span>Time</span><b id="stTime">–</b></div>
+      </div>
+
+      <ul id="warnings" class="warnings" hidden></ul>
+
+      <label for="output" class="sr">Compacted context</label>
+      <textarea id="output" rows="14"
+        placeholder="Compacted context appears here…"></textarea>
+
+      <div class="row wrap">
+        <button id="copyBtn" class="btn primary" type="button">Copy Context</button>
+        <button id="copyGpt" class="btn" type="button">Copy for ChatGPT</button>
+        <button id="copyClaude" class="btn" type="button">Copy for Claude</button>
+      </div>
+
+      <div class="row wrap">
+        <button id="dlTxt" class="btn" type="button">Download TXT</button>
+        <button id="dlMd" class="btn" type="button">Download Markdown</button>
+        <button id="dlHandoff" class="btn" type="button">Download AI handoff</button>
+        <button id="clearOutput" class="btn" type="button">Clear output</button>
+      </div>
+
+      <details class="history" id="historyBox">
+        <summary>History</summary>
+        <label class="check">
+          <input type="checkbox" id="saveToggle">
+          Save results on this device
+        </label>
+        <ul id="historyList" class="list"></ul>
+        <button id="clearHistory" class="btn small danger" type="button">Delete all history</button>
+      </details>
+    </section>
+  </main>
+</section>
+
+<section class="workspace-page astro-page" data-view="astro" hidden>
+  <h2>ASTRO 6</h2>
+  <p class="page-intro">Your personal AI assistant · Powered by Groq</p>
+
+  <div id="astroMessages" class="panel">
+    <p>Vanakkam! I'm ASTRO 6. How can I help you?</p>
+  </div>
+
+  <div class="panel">
+    <label for="astroInput">Message ASTRO 6</label>
+    <textarea id="astroInput" rows="3"
+      placeholder="Type in Tamil, Tanglish or English..."></textarea>
+    <div class="row">
+      <button id="astroSend" class="btn primary" type="button">Send</button>
+      <button id="astroClear" class="btn" type="button">Clear chat</button>
+    </div>
+    <p id="astroStatus" class="note">Ready</p>
+  </div>
+
+  <div class="panel" id="astroMemoryPanel">
+    <h3>ASTRO 6 Memory Manager</h3>
+
+    <div class="row">
+      <button id="astroMemoryRefresh" class="btn">
+        Refresh Memories
+      </button>
+
+      <button id="astroMemoryClearAll" class="btn">
+        Clear All Memories
+      </button>
+    </div>
+
+    <div id="astroMemoryList">
+      <p class="note">Loading memories...</p>
+    </div>
+  </div>
+</section>
+
+<!-- ASTRO 6 VOICE AGENT -->
+<section class="workspace-page" data-view="voice" hidden>
+
+
+  <div class="voice-page">
+    <div class="voice-header">
+      <div>
+        <div class="voice-eyebrow">ASTRO 6 VOICE AGENT</div>
+        <h2>Voice Agent</h2>
+        <p>Talk naturally with ASTRO 6 in Tamil or English.</p>
+      </div>
+
+      <div class="voice-online">
+        <span></span>
+        Voice Interface
+      </div>
+    </div>
+
+    <div class="voice-main-card">
+      <div class="voice-circle" aria-hidden="true">🎙️</div>
+
+      <h3>Two-Way Speech Interaction</h3>
+
+      <p class="voice-description">
+        Speak to ASTRO 6 and receive intelligent spoken responses.
+      </p>
+
+      <div class="voice-feature-grid">
+        <div class="voice-feature">
+          <h4>🎤 Speech Recognition</h4>
+          <p>
+            Speak through your microphone and convert
+            your speech into text.
+          </p>
+        </div>
+
+        <div class="voice-feature">
+          <h4>🔊 AI Voice Replies</h4>
+          <p>
+            Listen to ASTRO 6 responses using
+            available system voices.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive voice controls are added by voice-agent.js -->
+  </div>
+</section>
+<!-- END ASTRO 6 VOICE AGENT -->
+
+<section class="workspace-page" data-view="memory" hidden>
+  <h2>Memory Engine</h2>
+  <p class="page-intro">Save and manage facts ASTRO 6 can use in future conversations.</p>
+
+  <div class="feature-grid">
+    <article class="feature-card"><h3>Facts & Preferences</h3><p>Preserve source-grounded facts.</p></article>
+    <article class="feature-card"><h3>Timeline</h3><p>Dates, decisions and milestones.</p></article>
+    <article class="feature-card"><h3>Progress</h3><p>Completed and pending tasks.</p></article>
+    <article class="feature-card"><h3>Uncertainties</h3><p>Conflicts and unknown information.</p></article>
+  </div>
+
+  <div class="panel" id="memoryEnginePanel">
+    <h3>Add a memory</h3>
+    <form id="memoryEngineForm">
+      <label for="memoryEngineInput">Fact or preference</label>
+      <textarea id="memoryEngineInput" rows="4" maxlength="2000"
+        placeholder="Example: My name is Ranjan. I am developing COMPACTION AI V2 with ASTRO 6."
+        required></textarea>
+      <div class="row">
+        <button id="memoryEngineSave" class="btn primary" type="submit">Save Memory</button>
+        <button id="memoryEngineRefresh" class="btn" type="button">Refresh</button>
+        <button id="memoryEngineClearAll" class="btn danger" type="button">Clear All</button>
+      </div>
+    </form>
+    <p id="memoryEngineStatus" class="note" role="status" aria-live="polite">Connecting to Memory Engine…</p>
+  </div>
+
+  <div class="panel">
+    <div class="row">
+      <h3>Saved Memories</h3>
+      <span class="note">Count: <strong id="memoryEngineCount">0</strong></span>
+    </div>
+    <div id="memoryEngineList">
+      <p class="note">Loading memories…</p>
+    </div>
+  </div>
+</section>
+
+<section class="workspace-page" data-view="accuracy" hidden>
+  <h2>Accuracy Center</h2>
+  <div class="feature-grid">
+    <article class="feature-card"><h3>Fact verification</h3><p>Unsupported claims and numbers.</p></article>
+    <article class="feature-card"><h3>Missing information</h3><p>Source facts omitted from output.</p></article>
+    <article class="feature-card"><h3>Conflict detection</h3><p>Contradictory statements.</p></article>
+    <article class="feature-card"><h3>Source traceability</h3><p>Verify details against original input.</p></article>
+  </div>
+  <p class="page-intro">Advanced checks are not active yet.</p>
+</section>
+
+<section class="workspace-page" data-view="models" hidden>
+  <h2>AI Model Hub</h2>
+  <div class="feature-grid">
+    <article class="feature-card">
+      <h3>Ollama — Local AI</h3>
+      <p>Run models locally through your Ollama server.</p>
+      <span class="feature-status">Existing integration</span>
+    </article>
+    <article class="feature-card">
+      <h3>GroqCloud — Cloud AI</h3>
+      <p>Optional cloud inference with API security and rate limits.</p>
+      <span class="feature-status pending">Implementation pending</span>
+    </article>
+  </div>
+  <p class="page-intro">Cloud mode will send submitted text to the selected provider.</p>
+</section>
+
+<section class="workspace-page" data-view="performance" hidden>
+  <h2>Performance Center</h2>
+  <div class="feature-grid">
+    <article class="feature-card">
+      <h3>Processing time</h3>
+      <p>Actual elapsed time appears in compaction results.</p>
+    </article>
+    <article class="feature-card">
+      <h3>Optimization</h3>
+      <p>Reduce unnecessary model calls and improve responsiveness.</p>
+      <span class="feature-status pending">Further optimization pending</span>
+    </article>
+  </div>
+</section>
+
+<section class="workspace-page" data-view="history" hidden>
+  <h2>History & Library</h2>
+  <p class="page-intro">
+    Manage optional saved results in the Compaction section.
+    History remains off unless enabled.
+  </p>
+</section>
+
+<section class="workspace-page" data-view="export" hidden>
+  <h2>Export & Handoff</h2>
+  <div class="feature-grid">
+    <article class="feature-card">
+      <h3>ChatGPT</h3>
+      <p>Copy context for ChatGPT.</p>
+    </article>
+    <article class="feature-card">
+      <h3>Claude</h3>
+      <p>Copy context for Claude.</p>
+    </article>
+    <article class="feature-card">
+      <h3>File exports</h3>
+      <p>TXT, Markdown and AI handoff downloads.</p>
+    </article>
+  </div>
+  <p class="page-intro">Use the export controls in Compaction.</p>
+</section>
+
+<section class="workspace-page" data-view="settings" hidden>
+  <h2>Settings & Security</h2>
+  <div class="feature-grid">
+    <article class="feature-card">
+      <h3>Privacy</h3>
+      <p>Local Ollama processing and optional on-device history.</p>
+    </article>
+    <article class="feature-card">
+      <h3>Access control</h3>
+      <p>Backend access token configuration.</p>
+    </article>
+    <article class="feature-card">
+      <h3>API security</h3>
+      <p>Never expose API keys in frontend code or public repositories.</p>
+    </article>
+  </div>
+</section>
+
+<footer class="foot">
+  COMPACTION AI V2 · LOCAL-FIRST CONTEXT INTELLIGENCE
+</footer>
+
+</div>
+</div>
+
+<script src="/astro.js/clean.js"></script>
+<script src="/astro.js/app.js"></script>
+<script src="/astro.js/navigation.js"></script>
+<script src="/astro.js/voice-agent.js"></script>
+<script src="/astro.js/astro.js"></script>
+<script src="/astro.js/memory-engine.js"></script>
+</body>
+</html>

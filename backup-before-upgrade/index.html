@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COMPACTION — Keep the context. Lose the clutter.</title>
+<meta name="description" content="Compact long AI chats into a structured handoff context, using your own Ollama server.">
+<meta name="theme-color" content="#02050b">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='%2322d3ee'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23e6fcff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-orb="idle">
+<a class="skip" href="#input">Skip to the conversation box</a>
+<div class="bg" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="brand">
+    <h1>COMPACTION</h1>
+    <p class="tagline">Keep the context. Lose the clutter.</p>
+  </div>
+  <div class="top-right">
+    <span id="pill" class="pill" data-state="checking" role="status" aria-live="polite">Checking Ollama…</span>
+    <span class="ver">v2.0</span>
+  </div>
+</header>
+
+<main class="layout">
+
+  <!-- ============ LEFT: REAL SYSTEM STATUS ============ -->
+  <aside class="panel system" aria-labelledby="sysTitle">
+    <h2 id="sysTitle">System status</h2>
+    <p class="note">Every value here comes from a real check. Nothing is simulated.</p>
+    <dl class="rows">
+      <div><dt>Backend</dt><dd id="rowBackend" data-s="checking">checking…</dd></div>
+      <div><dt>Ollama</dt><dd id="rowOllama" data-s="checking">checking…</dd></div>
+      <div><dt>Model</dt><dd id="rowModel" data-s="checking">–</dd></div>
+      <div><dt>Installed</dt><dd id="rowInstalled" data-s="checking">–</dd></div>
+      <div><dt>Access</dt><dd id="rowAccess" data-s="checking">–</dd></div>
+    </dl>
+
+    <label for="modelSelect">AI model</label>
+    <select id="modelSelect" disabled><option value="">–</option></select>
+    <button id="recheck" class="btn small" type="button">Re-check connection</button>
+
+    <div id="tokenCard" class="callout" hidden>
+      <label for="tokenInput">Access token</label>
+      <input id="tokenInput" type="password" autocomplete="off" spellcheck="false">
+      <button id="tokenSave" class="btn small primary" type="button">Unlock</button>
+      <p class="note">Kept only for this browser tab.</p>
+    </div>
+
+    <div id="modelHelp" class="callout warn" hidden>
+      <p id="modelHelpText"></p>
+      <code id="pullCmd"></code>
+      <button id="copyPull" class="btn small" type="button">Copy command</button>
+    </div>
+
+    <h3>Where your data goes</h3>
+    <ul class="small">
+      <li id="dataWhere">Your text goes to <strong>your own Ollama server</strong> only.</li>
+      <li>The backend does not save or log conversations.</li>
+      <li>No analytics, no tracking, no third-party AI.</li>
+      <li>History is <strong>off</strong> unless you turn it on.</li>
+    </ul>
+  </aside>
+
+  <!-- ============ CENTER: ORB + INPUT ============ -->
+  <section class="center" aria-label="Conversation input">
+    <figure class="orb-wrap">
+      <svg class="orb" viewBox="0 0 200 200" role="img" aria-label="Decorative animated COMPACTION core. It does not show measurements.">
+        <defs>
+          <radialGradient id="gCore" cx="50%" cy="45%" r="55%">
+            <stop offset="0" stop-color="#f0feff"/>
+            <stop offset=".22" stop-color="#7df3ff"/>
+            <stop offset=".55" stop-color="#1fb6ff"/>
+            <stop offset="1" stop-color="#0a2a8a"/>
+          </radialGradient>
+          <radialGradient id="gHalo" cx="50%" cy="50%" r="50%">
+            <stop offset=".55" stop-color="#22d3ee" stop-opacity=".0"/>
+            <stop offset=".8" stop-color="#22d3ee" stop-opacity=".18"/>
+            <stop offset="1" stop-color="#3b82f6" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle class="halo" cx="100" cy="100" r="98" fill="url(#gHalo)"/>
+        <g class="ring r1"><circle cx="100" cy="100" r="88" fill="none" stroke="#22d3ee" stroke-width="1" stroke-dasharray="1.5 6"/></g>
+        <g class="ring r2"><circle cx="100" cy="100" r="76" fill="none" stroke="#38bdf8" stroke-width="1.6" stroke-dasharray="46 14 10 14"/></g>
+        <g class="ring r3"><circle cx="100" cy="100" r="64" fill="none" stroke="#60a5fa" stroke-width="1" stroke-dasharray="3 5"/></g>
+        <circle class="core" cx="100" cy="100" r="44" fill="url(#gCore)"/>
+        <g class="globe" fill="none" stroke="#e6fcff" stroke-opacity=".55" stroke-width=".8">
+          <ellipse cx="100" cy="100" rx="44" ry="14"/>
+          <ellipse cx="100" cy="100" rx="14" ry="44"/>
+          <ellipse cx="100" cy="100" rx="30" ry="44"/>
+          <ellipse cx="100" cy="100" rx="44" ry="30"/>
+        </g>
+        <g class="sat s1"><circle cx="100" cy="12" r="3" fill="#7df3ff"/></g>
+        <g class="sat s2"><circle cx="100" cy="24" r="2.2" fill="#93c5fd"/></g>
+        <g class="sat s3"><circle cx="100" cy="36" r="1.8" fill="#a5f3fc"/></g>
+      </svg>
+      <figcaption id="orbCaption">Decorative core · the status panel shows real checks</figcaption>
+    </figure>
+
+    <div class="panel input-panel">
+      <label for="input" class="h2like">Paste your AI conversation</label>
+      <textarea id="input" rows="10" spellcheck="false" placeholder="Paste a long conversation from ChatGPT, Claude or any assistant here…"></textarea>
+      <div class="counts"><span><b id="inChars">0</b> characters</span><span><b id="inWords">0</b> words</span><span id="inLimit" class="muted"></span></div>
+
+      <fieldset class="modes">
+        <legend>Compression mode</legend>
+        <label><input type="radio" name="mode" value="short"><span>Short</span></label>
+        <label><input type="radio" name="mode" value="balanced" checked><span>Balanced</span></label>
+        <label><input type="radio" name="mode" value="detailed"><span>Detailed</span></label>
+      </fieldset>
+      <p class="note" id="modeHint">Balanced: concise but keeps every decision, requirement and open task.</p>
+
+      <div class="row">
+        <button id="compactBtn" class="btn primary big" type="button">COMPACT CONTEXT</button>
+        <button id="cancelBtn" class="btn danger" type="button" hidden>Cancel</button>
+        <button id="quickBtn" class="btn" type="button" title="Removes repeated lines only. No AI is used.">Quick clean (no AI)</button>
+        <button id="clearInput" class="btn" type="button">Clear input</button>
+      </div>
+
+      <div id="progress" class="progress" hidden>
+        <div class="track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="track"><div id="bar" class="bar"></div></div>
+        <p id="progressText" class="note"></p>
+      </div>
+      <div id="message" class="message" role="status" aria-live="polite" hidden></div>
+      <p class="note warn-text">Heavy compression can lose nuance. Always read the result before relying on it.</p>
+    </div>
+  </section>
+
+  <!-- ============ RIGHT: OUTPUT ============ -->
+  <section class="panel output-panel" aria-labelledby="outTitle">
+    <h2 id="outTitle">Compacted context</h2>
+    <div class="stats" id="stats">
+      <div><span>Original</span><b id="stOrig">–</b></div>
+      <div><span>Compacted</span><b id="stComp">–</b></div>
+      <div><span>Reduction</span><b id="stRatio">–</b></div>
+      <div><span>Repeated lines removed</span><b id="stDup">–</b></div>
+      <div><span>Model</span><b id="stModel">–</b></div>
+      <div><span>Time</span><b id="stTime">–</b></div>
+    </div>
+    <ul id="warnings" class="warnings" hidden></ul>
+
+    <label for="output" class="sr">Compacted context (you can edit it)</label>
+    <textarea id="output" rows="14" spellcheck="false" placeholder="Your compacted context will appear here. You can edit it before copying."></textarea>
+
+    <div class="row wrap">
+      <button id="copyBtn" class="btn primary" type="button">Copy Context</button>
+      <button id="copyGpt" class="btn" type="button">Copy for ChatGPT</button>
+      <button id="copyClaude" class="btn" type="button">Copy for Claude</button>
+    </div>
+    <div class="row wrap">
+      <button id="dlTxt" class="btn" type="button">Download TXT</button>
+      <button id="dlMd" class="btn" type="button">Download Markdown</button>
+      <button id="dlHandoff" class="btn" type="button">Download AI handoff</button>
+      <button id="clearOutput" class="btn" type="button">Clear output</button>
+    </div>
+
+    <details class="history" id="historyBox">
+      <summary>History (optional, saved on this device only)</summary>
+      <label class="check"><input type="checkbox" id="saveToggle"> Save compacted results on this device</label>
+      <p class="note">Off by default. Saves only the compacted result, never your original conversation. The result can still contain sensitive details, so leave this off on shared computers.</p>
+      <ul id="historyList" class="list"></ul>
+      <button id="clearHistory" class="btn small danger" type="button">Delete all history</button>
+    </details>
+  </section>
+</main>
+
+<footer class="foot">COMPACTION v2.0 · runs on your Ollama · no cloud AI · no tracking</footer>
+
+<script src="config.js"></script>
+<script src="js/clean.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
